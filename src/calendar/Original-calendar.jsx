@@ -18,11 +18,14 @@ const Calendar = () => {
   const [calendar, setCalendar] = useState(null);
   const [events, setEvents] = useState([]);
   const [startDate, setStartDate] = useState("2026-07-05");
+  const [form, setForm] = useState({start: "", end: "", text: ""});
 
   const config = {
     viewType: "Week",
     durationBarVisible: false,
     timeRangeSelectedHandling: "Enabled",
+    headerDateFormat: "dd/MM",
+    durationBarVisible: false,
     onTimeRangeSelected: async args => {
       const modal = await DayPilot.Modal.prompt("Create a new event:", "Event 1");
       calendar.clearSelection();
@@ -83,6 +86,17 @@ const Calendar = () => {
         }
       ];
 
+      onEventMoved: async args => { await fetch("/api/events/move", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        id: parseInt(args.e.id(), 10),
+        start: args.newStart,
+        end: args.newEnd
+      })
+      });
+      }
+
 
       const participants = args.data.participants;
       if (participants > 0) {
@@ -117,56 +131,116 @@ const Calendar = () => {
   };
 
   useEffect(() => {
-    const events = [
-      {
-        id: 1,
-        text: "Event 1",
-        start: "2026-07-06T10:30:00",
-        end: "2026-07-06T13:00:00",
-        participants: 2,
-      },
-      {
-        id: 2,
-        text: "Event 2",
-        start: "2026-07-07T09:30:00",
-        end: "2026-07-07T11:30:00",
-        backColor: "#6aa84fcc",
-        participants: 1,
-      },
-      {
-        id: 3,
-        text: "Event 3",
-        start: "2026-07-07T12:00:00",
-        end: "2026-07-07T15:00:00",
-        backColor: "#f1c232cc",
-        participants: 3,
-      },
-      {
-        id: 4,
-        text: "Event 4",
-        start: "2026-07-05T11:30:00",
-        end: "2026-07-05T14:30:00",
-        backColor: "#cc4125cc",
-        participants: 4,
-      },
-    ];
-    setEvents(events);
-  }, []);
+  if (!calendar) return;
+
+  const fetchEvents = async () => {
+    const start = startDate + "T00:00:00"; // adjust to your calendar range
+    const end = DayPilot.Date.addDays(startDate, 7).toString("yyyy-MM-ddTHH:mm:ss");
+
+    const response = await fetch(`/api/events?start=${start}&end=${end}`);
+    const data = await response.json();
+
+    // DayPilot expects `id` as string
+    const formattedEvents = data.map(e => ({
+      id: e.id.toString(),
+      text: e.text,
+      start: e.start,
+      end: e.end,
+      backColor: e.color || undefined
+    }));
+
+    setEvents(formattedEvents);
+  };
+
+  fetchEvents();
+}, [calendar, startDate]);
+
+  const handleCreate = async () => {
+    const payload = {
+    text: form.text,
+    start: form.start,
+    end: form.end
+  };
+
+  const response = await fetch("/api/events/create", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(payload)
+  });
+
+  const newEvent = await response.json();
+
+  setEvents(prev => [
+    ...prev,
+    {
+      id: newEvent.id.toString(),
+      text: newEvent.text,
+      start: newEvent.start,
+      end: newEvent.end
+    }
+  ]);
+
+  setForm({ start: "", end: "", text: "" }); // reset form
+};
+
+// BEFORE JOINING BACK&FRONT :
+//   const newEvent = {
+//     id: DayPilot.guid(),
+//     text: form.text,
+//     start: form.start,
+//     end: form.end
+//   };
+
+//   setEvents(prev => [...prev, newEvent]);
+// };
 
   return (
-    <div style={styles.wrap}>
-      <div style={styles.left}>
+    <div className="calendar-layout">
+      <section className='left-column'>
+      <div className="navigator-container">
         <DayPilotNavigator
           selectMode={"Week"}
-          showMonths={3}
-          skipMonths={3}
+          showMonths={1}
+          skipMonths={2}
           selectionDay={startDate}
           onTimeRangeSelected={ args => {
             setStartDate(args.day);
           }}
         />
       </div>
-      <div style={styles.main}>
+      <div className="event-form">
+        <h3>Book slot</h3>
+
+        <div className="form-group">
+          <label>Start</label>
+          <input
+            type="datetime-local"
+            value={form.start}
+            onChange={(e) => setForm({...form, start: e.target.value})}
+          />
+        </div>
+        <div className="form-group">
+          <label>End</label>
+          <input
+            type="datetime-local"
+            value={form.end}
+            onChange={(e) => setForm({...form, end: e.target.value})}
+          />
+        </div>
+        <div className="form-group">
+          <label>Message</label>
+          <input
+            type="text"
+            placeholder="addtional info"
+            value={form.text}
+            onChange={(e) => setForm({...form, text: e.target.value})}
+          />
+        </div>
+
+        <button onClick={handleCreate}>Create</button>
+      </div>
+      </section>
+      <div className="calendar-main">
         <DayPilotCalendar
           {...config}
           events={events}

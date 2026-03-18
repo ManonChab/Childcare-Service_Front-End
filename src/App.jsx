@@ -1,9 +1,9 @@
 import './App.css'
-import Calendar from "./calendar/Calendar.jsx";
+import Calendar2 from "./calendar/Calendar2.jsx";
 
 function App() {
   return (
-    <Calendar/>
+    <Calendar2/>
   );
 }
 
