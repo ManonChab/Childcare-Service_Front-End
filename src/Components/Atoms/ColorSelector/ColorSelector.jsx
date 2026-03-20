@@ -3,8 +3,8 @@ import { useForm } from "react-hook-form";
 import { TextField, Grid, MenuItem, Box, Tooltip, Typography } from "@mui/material";
 import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 
-export default function ColorSelect() {
-  const { register, handleSubmit } = useForm();
+export default function ColorSelect({ register }) {
+  const { handleSubmit } = useForm();
 
   const colors = [
     { hex: "#FF0000", name: "Red" },

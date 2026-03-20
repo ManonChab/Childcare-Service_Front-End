@@ -110,7 +110,7 @@ const onSubmit = async (data) => {
 
                 <Grid container spacing={2}>
                     <Grid>
-                        <ColorSelect />
+                        <ColorSelect  register={register} />
                     </Grid>
 
                     <Grid>
