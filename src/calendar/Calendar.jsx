@@ -1,11 +1,19 @@
 import React, { useEffect, useState } from "react";
 import {DayPilot, DayPilotCalendar, DayPilotNavigator,} from "@daypilot/daypilot-lite-react";
 import "./Calendar.css";
+import { ThemeProvider, CssBaseline } from "@mui/material";
+import { theme } from "../Context/Theme/ThemeContext"; // adjust path
+import { CreateSlot } from "../Components/Atoms/CreateSlot/CreateSlot";
+import { Button, Dialog, DialogTitle, DialogContent } from "@mui/material";
 
 const Calendar = () => {
     const [calendar, setCalendar] = useState(null);
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState(null);
     const [slots, setSlots] = useState([]);
     const [startDate, setStartDate] = useState("2026-07-05");
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [selectedDate, setSelectedDate] = useState(null);
     const [form, setForm] = useState({ start: "", end: "", text: "" });
 
   // --- Fetch slots from backend ---
@@ -37,19 +45,22 @@ const Calendar = () => {
     }));
 
     setSlots(formatted);
-    };
+};
 
     useEffect(() => {
     fetchSlots();
     }, [calendar, startDate]);
 
   // --- Create new slot ---
-    const handleCreate = async () => {
+    const handleCreate = async (formData) => {
+        setLoading(true);
+        setError(null);
+
     try {
         const response = await fetch("/api/events/create", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(form)
+        body: JSON.stringify(formData)
         });
 
         if (!response.ok) {
@@ -65,11 +76,11 @@ const Calendar = () => {
         start: newSlot.start,
         end: newSlot.end
     }]);
-
-        setForm({ start: "", end: "", text: "" }); // reset form
-
+    setForm({ start: "", end: "", text: "" }); // reset form
     } catch (err) {
-        alert(err.message); // later → replace with UI feedback
+    setError(err.message); // 🔥 no more alert
+    } finally {
+        setLoading(false);
     }
 };
 
@@ -156,63 +167,64 @@ const Calendar = () => {
         { text: "-", disabled: true },
         { text: "Edit...", onClick: async (args) => editSlot(args.source) },
         ],
-    }),
-    };
+    })
+}
 
     return (
+        <ThemeProvider theme={theme}>
+            <CssBaseline />
         <div className="calendar-layout">
-        <section className="left-column">
-            <div className="navigator-container">
-            <DayPilotNavigator
-                selectMode="Week"
-                showMonths={1}
-                skipMonths={2}
-                selectionDay={startDate}
-                onTimeRangeSelected={(args) => setStartDate(args.day)}
-            />
-            </div>
-            <div className="event-form">
-            <h3>Create Slot</h3>
-            <div className="form-group">
-                <label>Start</label>
-                <input
-                type="datetime-local"
-                value={form.start}
-                onChange={(e) => setForm({ ...form, start: e.target.value })}
-                />
-            </div>
-            <div className="form-group">
-                <label>End</label>
-                <input
-                type="datetime-local"
-                value={form.end}
-                onChange={(e) => setForm({ ...form, end: e.target.value })}
-                />
-            </div>
-            <div className="form-group">
-                <label>Message</label>
-                <input
-                type="text"
-                value={form.text}
-                onChange={(e) => setForm({ ...form, text: e.target.value })}
-                />
-            </div>
-            <button onClick={handleCreate}>Create Slot</button>
-            </div>
-        </section>
+            
+                <div className="navigator-container">
+                    <DayPilotNavigator
+                        selectMode="Week"
+                        showMonths={1}
+                        skipMonths={2}
+                        selectionDay={startDate}
+                        onTimeRangeSelected={(args) => setStartDate(args.day)}
+                    />
+                </div>
 
-        <div className="calendar-main">
-            <DayPilotCalendar
-            {...config}
-            events={slots}
-            startDate={startDate}
-            controlRef={setCalendar}
-            />
-        </div>
-        </div>
+                <Button  className="slot-button"
+                variant="contained"
+                color="primary"
+                sx={{ m: 2 }}
+                onClick={() => {
+                    setSelectedDate(null); // no specific date yet
+                    setIsModalOpen(true);
+                }}
+                >
+                    Create New Slot
+                </Button>
+                <Dialog open={isModalOpen} onClose={() => setIsModalOpen(false)} disableEnforceFocus={false}
+                    >
+                    <CreateSlot 
+                        onCreate={(data) => {
+                            handleCreate(data);
+                            setIsModalOpen(false);
+                        }}
+                        loading={loading}
+                        error={error}
+                        initialDate={selectedDate} // optional, pre-fill date
+                    />
+                </Dialog>
+
+                <div className="calendar-main">
+                    <DayPilotCalendar
+                    {...config}
+                    events={slots}
+                    startDate={startDate}
+                    controlRef={setCalendar}
+                    onTimeRangeSelected={(args) => {
+                    setSelectedDate(args.start); // pass clicked date
+                    setIsModalOpen(true);        // open modal
+                    // optionally, prevent default behavior
+                    args.preventDefault();}}
+                    />
+                </div>
+            </div>
+        </ThemeProvider>
     );
-    
-    };
-
+};
 
 export default Calendar;

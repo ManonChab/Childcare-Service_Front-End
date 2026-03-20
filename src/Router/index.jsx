@@ -1,6 +1,8 @@
 import { createBrowserRouter } from "react-router";
 import Calendar from "../calendar/Calendar";
 import { Layout } from "../Layout/Layout";
+import { SignUp } from "../Components/Pages/SignUp/SignUp";
+import { LandingPage } from "../Components/Pages/Landing/LandingPage";
 
 export const router = createBrowserRouter ([
     {
@@ -9,16 +11,16 @@ export const router = createBrowserRouter ([
         children: [
             {
                 index: true,
+                Component: LandingPage
+            },
+            {
+                path: "calendar",
                 Component: Calendar
             },
-            // {
-            //     path: "calendar",
-            //     Component: Calendar
-            // },
-            // {
-            //     path: "/SignUp",
-            //     Component: SignUp
-            // },
+            {
+                path: "/SignUp",
+                Component: SignUp
+            },
             // {
             //     path: "/LogIn",
             //     Component: LogIn

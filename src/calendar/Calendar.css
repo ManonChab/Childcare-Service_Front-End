@@ -27,72 +27,6 @@
     object-fit: cover;
 }
 
-.event-form {
-    background: white;
-    border: solid 1px #1f5ca8;
-    border-radius: 10px;
-    padding: 16px;
-    width: 260px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-    margin: 2rem;
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-}
-
-/* Title */
-    .event-form h3 {
-    margin: 0;
-    font-size: 16px;
-    color: #2e78d6;
-}
-
-/* Group */
-    .form-group {
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-}
-
-/* Labels */
-    .form-group label {
-    font-size: 12px;
-    color: #666;
-}
-
-/* Inputs */
-.event-form input {
-    padding: 6px 8px;
-    border-radius: 6px;
-    border: 1px solid #ccc;
-    font-size: 13px;
-    transition: border 0.2s, box-shadow 0.2s;
-}
-
-/* Focus effect */
-.event-form input:focus {
-    outline: none;
-    border-color: #2e78d6;
-    box-shadow: 0 0 0 2px rgba(46,120,214,0.2);
-}
-
-/* Button */
-.event-form button {
-    margin-top: 6px;
-    padding: 8px;
-    border: none;
-    border-radius: 6px;
-    background: #2e78d6;
-    color: white;
-    font-weight: 500;
-    cursor: pointer;
-    transition: background 0.2s;
-}
-
-.event-form button:hover {
-    background: #1f5ca8;
-}
-
 /* Base desktop layout (unchanged) */
 .calendar-layout {
     display: flex;
@@ -133,14 +67,12 @@
 
 }
 
-.event-form {
-    margin: 0;                /* remove original margins */
-}
 
   /* Calendar full width under */
 .calendar-main {
     width: 100%;
     margin-top: 1rem;
 }
+
 
 }
