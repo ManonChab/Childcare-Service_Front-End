@@ -17,7 +17,8 @@ import {
     CssBaseline,
 } from "@mui/material";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
-import ColorSelect from "../../Components/Atoms/ColorSelector/ColorSelector";
+import ColorSelect from "../Atoms/ColorSelector/ColorSelector";
+import Logo from "../Atoms/Logo/Logo";
 
 export default function SignUpForm() {
 
@@ -37,13 +38,11 @@ const onSubmit = async (data) => {
     return (
         <Container style={{ color: theme.palette.text.primary }} component="main" maxWidth="xs" sx={{ width: "100%", md: "50%"  }}>
         <Box sx={{ display: "flex", flexDirection: "column",  alignItems: "center" }}>
-            <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
-                <LockOutlinedIcon />
-            </Avatar>
-
+            <Logo/>
+            {/* 
             <Typography component="h1" variant="h5" sx={{ fontWeight: 600, fontSize: "40px", color: "text.primary" }} >
             Sign up
-            </Typography>
+            </Typography> */}
 
             <Box component="form" onSubmit={handleSubmit(onSubmit)} sx={{ mt: 3,  }}>
                 <Grid container spacing={2} sx={{ display: "flex", flexDirection: "column",  alignItems: "center"  }}>

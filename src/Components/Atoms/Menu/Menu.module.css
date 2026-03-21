@@ -1,0 +1,27 @@
+.menu {
+    display: flex;
+    align-content: space-evenly;
+    font-family:  "Charm", cursive;
+    width: 100%;
+    color: secondary;
+    justify-content: space-between;
+    color: #963d5b;
+    text-decoration: none;
+    margin-top: 2rem;
+    border-bottom: 2px solid #963d5b;
+    
+}
+
+.menu a {
+    text-decoration: none;
+    color: inherit;
+    margin-bottom: 1rem;
+    
+}
+
+hr {
+    border: none;
+    height: 2px;
+    background-color: black;
+    margin: 20px 0;
+}

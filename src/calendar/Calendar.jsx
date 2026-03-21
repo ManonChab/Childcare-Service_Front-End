@@ -5,6 +5,7 @@ import { ThemeProvider, CssBaseline } from "@mui/material";
 import { theme } from "../Context/Theme/ThemeContext"; // adjust path
 import { CreateSlot } from "../Components/Atoms/CreateSlot/CreateSlot";
 import { Button, Dialog, DialogTitle, DialogContent } from "@mui/material";
+import Logo from "../Components/Atoms/Logo/Logo";
 
 const Calendar = () => {
     const [calendar, setCalendar] = useState(null);
@@ -176,6 +177,7 @@ const Calendar = () => {
         <div className="calendar-layout">
             
                 <div className="navigator-container">
+                    <Logo className="logo"/>
                     <DayPilotNavigator
                         selectMode="Week"
                         showMonths={1}

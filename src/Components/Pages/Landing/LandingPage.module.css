@@ -1,0 +1,17 @@
+
+
+.main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.catchText {
+    font-family: advent pro;
+    font-weight: 500;
+}
+
+.auth {
+    display:flex ;
+    gap: 3rem;
+}
