@@ -12,6 +12,9 @@
 }
 
 .auth {
-    display:flex ;
-    gap: 3rem;
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    right: 10px;
+    align-items: flex-end
 }

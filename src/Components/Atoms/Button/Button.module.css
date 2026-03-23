@@ -1,0 +1,13 @@
+.signUp {
+    width: fit-content;
+    padding: 0 5px 0 5px;
+    font-family:Arial, Helvetica, sans-serif ;
+    font-weight: bold;
+    background-color: #963d5b;
+    color: white;
+    border-radius: 5px;
+    border: none;
+    padding: 5px 10px 5px 10px;
+    margin:5px;
+    font-size: 0.5em;
+}

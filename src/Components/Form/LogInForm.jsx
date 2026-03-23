@@ -4,6 +4,7 @@ import { useContext } from "react";
 import { UserContext } from "../../Context/UserContext";
 import UserPath from "../../Service/UserPath";
 import { useTheme } from "@mui/material/styles";
+import { useNavigate } from "react-router";
 import {
     Avatar,
     Button,
@@ -23,10 +24,12 @@ export function LogInForm() {
     const { loginUser } = UserPath();
     const [apiError, setApiError] = React.useState("");
     const { login } = useContext(UserContext);
+    const navigate = useNavigate();
 
     const onSubmit = async (data) => {
     try {
         await login(data);
+        navigate("/");
     } catch (error) {
         const message =
             error.response?.data?.message ||

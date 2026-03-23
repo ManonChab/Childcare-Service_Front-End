@@ -2,7 +2,6 @@ import { useState, useEffect } from "react"
 import { UserContext } from "./UserContext"
 import UserPath from "../Service/UserPath"
 import api from "../Service/api"
-import AuthModal from "../Components/molecules/authModal/AuthModal"
 
 const UserProvider = ({ children }) => {
     const [isLogged, setIsLogged] = useState(false);
@@ -11,6 +10,13 @@ const UserProvider = ({ children }) => {
 
     useEffect(() => {
         const savedUser = localStorage.getItem("userData");
+        if (savedUser) {
+        setUser(JSON.parse(savedUser));
+        setIsLogged(true);
+        }
+        }, []);
+
+        //WHEN IMPLEMENTING TOKEN
         // const savedToken = localStorage.getItem("token");
         // if (!savedToken || !savedUser) {
         //     logout();
@@ -18,10 +24,8 @@ const UserProvider = ({ children }) => {
         //     setUser(JSON.parse(savedUser));
         //     setIsLogged(true);
         // }
-    }, []);
+    // }, []);
 
-    const openAuthModal = () => setIsModalOpen(true);
-    const closeAuthModal = () => setIsModalOpen(false);
 
     const login = async (credentials) => {
         try {
@@ -71,12 +75,9 @@ const UserProvider = ({ children }) => {
                 logout,
                 user,
                 isModalOpen,
-                openAuthModal,
-                closeAuthModal,
             }}
         >
             {children}
-            <AuthModal isOpen={isModalOpen} onClose={closeAuthModal} />
         </UserContext.Provider>
     );
 };

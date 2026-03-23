@@ -11,7 +11,6 @@ const Menu = () => {
             <Link to="/" prefetch="viewport">Recommendations</Link>
             <Link to="/" prefetch="viewport">Profile</Link>
         </section>
-        <hr />
     </>
     
     )
