@@ -18,3 +18,17 @@
     right: 10px;
     align-items: flex-end
 }
+
+.section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.adminButton {
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    right: 10px;
+    align-items: flex-start
+}

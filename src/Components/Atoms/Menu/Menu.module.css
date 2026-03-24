@@ -1,4 +1,13 @@
 .menu {
+    width: 100%;
+    position: sticky;
+    top: 0;
+    background: #f9e3e3; /* important so it doesn't overlap weirdly */
+    z-index: 1000;
+    
+}
+
+.links {
     display: flex;
     align-content: space-evenly;
     font-family:  "Charm", cursive;
@@ -9,7 +18,12 @@
     text-decoration: none;
     margin-top: 2rem;
     font-size: 0.9em;
-    
+
+}
+
+.line {
+    width: 90%;
+    margin: 0 auto;
 }
 
 .menu a {
@@ -22,4 +36,8 @@ hr {
     border: none;
     height: 2px;
     background-color: black;
+}
+
+html {
+  scroll-behavior: smooth;
 }
