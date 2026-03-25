@@ -4,6 +4,7 @@ import Title from "../../Atoms/Title/Title";
 import Logo from "../../Atoms/Logo/Logo";
 import style from "../AdminReviews/AdminReviews.module.css";
 import SliderButton from "../../Atoms/SliderButton/SliderButton";
+import Line from "../../Atoms/Line/Line";
 
 const AdminReviews = () => {
   const [reviews, setReviews] = useState([]);
@@ -47,7 +48,7 @@ const toggleShow = (review, newValue) => {
         <Logo/>
         <Title title="Reviews"/>
       </header>
-      <FormControl size="small" sx={{ minWidth: 80, maxWidth: 120, backgroundColor: "white", borderRadius: "6px",  }}>
+      <FormControl size="small" sx={{ minWidth: 80, maxWidth: 120, backgroundColor: "white", borderRadius: "6px", marginBottom:2 }}>
         <InputLabel sx={{ fontSize: "1rem",}}>Filter</InputLabel>
         <Select value={filter} label="Filter" onChange={(e) => setFilter(e.target.value)} sx={{ fontSize: "1rem",}}>
             <MenuItem value="ALL" sx={{ fontSize: "1rem",}}>All</MenuItem>
@@ -55,11 +56,13 @@ const toggleShow = (review, newValue) => {
             <MenuItem value="HIDDEN" sx={{ fontSize: "1rem",}}>Hidden</MenuItem>
         </Select>
       </FormControl>
+      <Line/>
       {filteredReviews.map((r) => (
         <div key={r.id} className={style.review}>
           <section className={style.text}>
-            <p>{r.review}</p>
+            <p className={style.p}>{r.review}</p>
             <p className={style.autor}> - {r.user?.firstName || "Anonymous"} - </p>
+            <Line/>
           </section>
           <SliderButton
             checked={r.show}

@@ -21,7 +21,7 @@
   flex: 1;
 }
 
-p {
+.p {
     font-size: 1em;
     font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif
 }
