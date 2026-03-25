@@ -16,6 +16,10 @@ const UserProvider = ({ children }) => {
         }
         }, []);
 
+        useEffect(() => {
+        console.log("USER CHANGED:", user);
+        }, [user]);
+
         //WHEN IMPLEMENTING TOKEN
         // const savedToken = localStorage.getItem("token");
         // if (!savedToken || !savedUser) {
@@ -60,7 +64,8 @@ const UserProvider = ({ children }) => {
     };
 
     const logout = () => {
-        localStorage.clear();
+        console.log("logout clicked")
+        localStorage.removeItem("userData");
         setUser(null);
         setIsLogged(false);
     };

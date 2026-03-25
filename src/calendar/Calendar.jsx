@@ -6,6 +6,7 @@ import { theme } from "../Context/Theme/ThemeContext"; // adjust path
 import { CreateSlot } from "../Components/Atoms/CreateSlot/CreateSlot";
 import { Button, Dialog, DialogTitle, DialogContent } from "@mui/material";
 import Logo from "../Components/Atoms/Logo/Logo";
+import { createSlot } from "../calendar/api/slots";
 
 const Calendar = () => {
     const [calendar, setCalendar] = useState(null);
@@ -56,34 +57,56 @@ const Calendar = () => {
     fetchSlots();
     }, [calendar, startDate]);
 
+    const formatDate = (dateStr) => {
+    const d = new Date(dateStr);
+
+    if (isNaN(d)) {
+        console.error("INVALID DATE", dateStr);
+        return null;
+    }
+
+    return d.toISOString().slice(0, 19);
+};
+
   // --- Create new slot ---
     const handleCreate = async (formData) => {
-        setLoading(true);
-        setError(null);
+        console.log("HANDLE CREATE CALLED", formData);
+    setLoading(true);
+    setError(null);
 
     try {
-        const response = await fetch("/api/v1/events/create", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData)
-        });
+        const payload = {
+            text: formData.text,
+            start: formatDate(formData.start),
+            end: formatDate(formData.end),
+            userId: 1
+        };
+        console.log("PAYLOAD", payload);
 
-        if (!response.ok) {
-        const errorText = await response.text();
-        throw new Error(errorText);
-        }
+        console.log("BEFORE FETCH");
 
-    const newSlot = await response.json();
+        const newEvent = await createSlot(payload);
 
-    setSlots(prev => [...prev, {
-        id: newSlot.id.toString(),
-        text: newSlot.text,
-        start: newSlot.start,
-        end: newSlot.end
-    }]);
-    setForm({ start: "", end: "", text: "" }); // reset form
+        console.log("AFTER FETCH", newEvent);
+
+        setSlots(prev => [
+            ...prev,
+            {
+                id: newEvent.id.toString(),
+                text: newEvent.text,
+                start: newEvent.start,
+                end: newEvent.end
+            }
+        ]);
+
+    if (!formData.start || !formData.end || !formData.text) {
+    console.log("FORM INVALID", formData);
+    return;
+}
+
     } catch (err) {
-    setError(err.message); // 🔥 no more alert
+        console.error("CREATE ERROR", err);
+        setError(err.message);
     } finally {
         setLoading(false);
     }
@@ -140,7 +163,7 @@ const Calendar = () => {
             end: args.end.toString(),
         };
 
-        const response = await fetch("/api/v1/events/create", {
+        const response = await fetch("/api/v1/events", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),
@@ -205,10 +228,13 @@ const Calendar = () => {
                 <Dialog open={isModalOpen} onClose={() => setIsModalOpen(false)} disableEnforceFocus={false}
                     >
                     <CreateSlot 
-                        onCreate={(data) => {
-                            handleCreate(data);
-                            setIsModalOpen(false);
-                        }}
+                        onCreate={async (data) => {
+                        console.log("ON CREATE CALLED", data);
+
+                        await handleCreate(data); // 👈 wait for it
+
+                        setIsModalOpen(false);
+}}
                         loading={loading}
                         error={error}
                         initialDate={selectedDate} // optional, pre-fill date

@@ -12,6 +12,7 @@ export const CreateSlot = ({ onCreate, loading, error }) => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
+        console.log("FORM SUBMITTED", form);
         onCreate(form); // 🔥 send data to parent
         setForm({ start: "", end: "", text: "" });
     };

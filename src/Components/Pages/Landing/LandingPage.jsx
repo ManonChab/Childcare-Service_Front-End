@@ -14,7 +14,7 @@ import Contacts from '../../Organisms/Contacts/Contacts'
 import { useUser } from "../../../Context/UserContext";
 
 export const LandingPage = () => {
-    const { user } = useUser();
+    const { user, logout } = useUser();
     const isLoggedIn = !!user;
 
     const publicMenu = [
@@ -42,7 +42,7 @@ export const LandingPage = () => {
         </section>
       ) : (
         <section className={style.auth}>
-          <Button to="/LogIn" label="LOG OUT" />
+          <Button onClick={logout} label="LOG OUT" />
         </section>
       )}
       <Menu items={isLoggedIn ? privateMenu : publicMenu} />

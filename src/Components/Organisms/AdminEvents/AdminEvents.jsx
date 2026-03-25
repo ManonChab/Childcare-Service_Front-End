@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import style from "./AdminEvents.module.css"
 
 
     const AdminEvents = () => {
@@ -41,17 +42,17 @@ import React, { useEffect, useState } from "react";
     return (
         <div>
         {filteredEvents.map(e => (
-            <div key={e.id}>
-            <p>{e.text}</p>
-            <p>{e.user?.firstName || "Unknown"}</p>
-
-            <button onClick={() => updateStatus(e, "approve")}>
-                Approve
-            </button>
-
-            <button onClick={() => updateStatus(e, "reject")}>
-                Reject
-            </button>
+            <div key={e.id} className={style.event}>
+                <section>
+                    <p>Start: {new Date(e.start).toLocaleString()}</p>
+                    <p>End: {new Date(e.end).toLocaleString()}</p>
+                    <p>{e.text}</p>
+                    <p>{e.user?.firstName || "Unknown"}</p>
+                </section>
+                <section className={style.decision}>
+                    <button onClick={() => updateStatus(e, "approve")}>Approve</button>
+                    <button onClick={() => updateStatus(e, "reject")}>Reject</button>
+                </section>
             </div>
         ))}
         </div>

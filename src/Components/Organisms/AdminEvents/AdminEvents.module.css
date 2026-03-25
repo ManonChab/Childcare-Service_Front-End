@@ -1,0 +1,9 @@
+.event {
+    display: flex;
+}
+
+.decision {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+}
