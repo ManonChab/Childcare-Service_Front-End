@@ -18,3 +18,5 @@ export const updateSlot = (data) =>
 
 export const deleteSlot = (id) =>
   fetch(`/api/events/${id}`, { method: "DELETE" });
+
+export const API = "http://localhost:8080/api/v1/events";

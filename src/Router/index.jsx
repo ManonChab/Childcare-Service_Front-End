@@ -5,8 +5,11 @@ import { SignUp } from "../Components/Pages/SignUp/SignUp";
 import { LandingPage } from "../Components/Pages/Landing/LandingPage";
 import {LogInForm} from "../Components/Form/LogInForm"
 import AdminReviews from "../Components/Organisms/AdminReviews/AdminReviews";
-import Admin from "../Components/Pages/Admin/Admin";
+import Admin from "../Components/Pages/Admin/AdminPage";
 import AdminEvents from "../Components/Organisms/AdminEvents/AdminEvents";
+import Clients from "../Components/Organisms/Clients/Clients";
+import Messages from "../Components/Organisms/Messages/Messages";
+import Settings from "../Components/Organisms/Settings/Settings";
 
 export const router = createBrowserRouter ([
     {
@@ -40,34 +43,19 @@ export const router = createBrowserRouter ([
                     {
                         path: "events",
                         Component: AdminEvents
+                    },
+                    {
+                        path: "clients",
+                        Component: Clients
+                    },
+                    {
+                        path: "messages",
+                        Component: Messages
+                    },
+                    {
+                        path: "settings",
+                        Component: Settings
                     }]}
-            // {
-            //     path: "/Profile",
-            //     Component: Profile,
-            //     children:[
-            //         {
-            //             path: "shop",
-            //             Component: Shop
-            //         },
-            //         {
-            //             path: "myswaps",
-            //             Component: MySwaps
-            //         },
-            //         {
-            //             path: "create",
-            //             Component: CreateArticle
-            //         },
-            //         {
-            //             path:"history",
-            //             Component: SwapHistory
-            //         },
-            //         {
-            //             path: "edit/:id",
-            //             Component: EditArticle
-            //         }
-            //     ]
-
-            // }
         ]
     },
     

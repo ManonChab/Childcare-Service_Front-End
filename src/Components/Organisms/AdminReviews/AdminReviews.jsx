@@ -45,10 +45,8 @@ const toggleShow = (review, newValue) => {
   return (
     <div className={style.page}>
       <header className={style.header}>
-        <Logo/>
-        <Title title="Reviews"/>
       </header>
-      <FormControl size="small" sx={{ minWidth: 80, maxWidth: 120, backgroundColor: "white", borderRadius: "6px", marginBottom:2 }}>
+      <FormControl size="small" sx={{ minWidth: 80, maxWidth: 120, backgroundColor: "white", borderRadius: "6px", marginBottom:2, marginTop:2}}>
         <InputLabel sx={{ fontSize: "1rem",}}>Filter</InputLabel>
         <Select value={filter} label="Filter" onChange={(e) => setFilter(e.target.value)} sx={{ fontSize: "1rem",}}>
             <MenuItem value="ALL" sx={{ fontSize: "1rem",}}>All</MenuItem>

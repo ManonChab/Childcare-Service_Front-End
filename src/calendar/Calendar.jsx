@@ -27,7 +27,7 @@ const Calendar = () => {
     const startStr = start.toString("yyyy-MM-ddTHH:mm:ss");
     const endStr = end.toString("yyyy-MM-ddTHH:mm:ss");
 
-    const response = await fetch(`/api/events?start=${startStr}&end=${endStr}`);
+    const response = await fetch(`/api/v1/events?start=${startStr}&end=${endStr}`);
     if (!response.ok) {
     const text = await response.text();
     throw new Error(text);
@@ -38,11 +38,15 @@ const Calendar = () => {
 
 
     const formatted = data.map((s) => ({
-        id: s.id.toString(),
-        text: s.text,
-        start: s.start,
-        end: s.end,
-        backColor: s.color || undefined,
+    id: s.id.toString(),
+    text: s.text,
+    start: s.start,
+    end: s.end,
+    backColor:
+        s.status === "REQUESTED" ? "#cccccc" :
+        s.status === "CONFIRMED" ? "#4caf50" :
+        s.status === "REJECTED" ? "#f44336" :
+        undefined
     }));
 
     setSlots(formatted);
@@ -58,7 +62,7 @@ const Calendar = () => {
         setError(null);
 
     try {
-        const response = await fetch("/api/events/create", {
+        const response = await fetch("/api/v1/events/create", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData)
@@ -98,7 +102,7 @@ const Calendar = () => {
     end: e.end().toString()
     };
 
-    await fetch("/api/events/update", {
+    await fetch("/api/v1/events/update", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(payload)
@@ -110,7 +114,7 @@ const Calendar = () => {
 
   // --- Delete slot ---
     const deleteSlot = async (e) => {
-    await fetch(`/api/events/${e.id()}`, {
+    await fetch(`/api/v1/events/${e.id()}`, {
         method: "DELETE"
     });
 
@@ -136,7 +140,7 @@ const Calendar = () => {
             end: args.end.toString(),
         };
 
-        const response = await fetch("/api/events/create", {
+        const response = await fetch("/api/v1/events/create", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),
@@ -152,7 +156,7 @@ const Calendar = () => {
     },
     onEventClick: async (args) => editSlot(args.e),
     onEventMoved: async (args) => {
-        await fetch("/api/events/move", {
+        await fetch("/api/v1/events/move", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({

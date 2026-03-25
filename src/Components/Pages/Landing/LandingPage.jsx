@@ -17,13 +17,23 @@ export const LandingPage = () => {
     const { user } = useUser();
     const isLoggedIn = !!user;
 
+    const publicMenu = [
+      { type: "anchor", href: "#about", label: "About Me" },
+      { type: "anchor", href: "#reviews", label: "Recommendations" },
+      { type: "anchor", href: "#contact", label: "Contact" },
+    ];
+
+    const privateMenu = [
+      { type: "link", to: "/calendar", label: "Calendar" },
+      { type: "anchor", href: "#about", label: "About Me" },
+      { type: "anchor", href: "#reviews", label: "Recommendations" },
+      { type: "link", to: "/", label: "Profile" },
+    ];
+
   return (
     <>
     <main className={style.main}>
       <Logo/>
-      {/* <p className={style.catchText}>
-        Over 10 years of dedicated childcare experience, providing a safe, nurturing, and joyful environment where every child can grow, explore, and thrive with confidence and curiosity.
-      </p> */}
       <Button to="/Admin" label="ADMIN" className={style.adminButton}/>
       {!isLoggedIn ? (
         <section className={style.auth}>
@@ -35,7 +45,7 @@ export const LandingPage = () => {
           <Button to="/LogIn" label="LOG OUT" />
         </section>
       )}
-      <Menu/>
+      <Menu items={isLoggedIn ? privateMenu : publicMenu} />
       <section id="about" className={style.section}>
         <Title title="About Me"/>
         <AboutMe/>
