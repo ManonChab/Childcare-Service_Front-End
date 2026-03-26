@@ -6,7 +6,6 @@ import { theme } from "../Context/Theme/ThemeContext"; // adjust path
 import { CreateSlot } from "../Components/Atoms/CreateSlot/CreateSlot";
 import { Button, Dialog, DialogTitle, DialogContent } from "@mui/material";
 import Logo from "../Components/Atoms/Logo/Logo";
-import { createSlot } from "../calendar/api/slots";
 
 const Calendar = () => {
     const [calendar, setCalendar] = useState(null);
@@ -28,7 +27,7 @@ const Calendar = () => {
     const startStr = start.toString("yyyy-MM-ddTHH:mm:ss");
     const endStr = end.toString("yyyy-MM-ddTHH:mm:ss");
 
-    const response = await fetch(`/api/v1/events?start=${startStr}&end=${endStr}`);
+    const response = await fetch(`/api/events?start=${startStr}&end=${endStr}`);
     if (!response.ok) {
     const text = await response.text();
     throw new Error(text);
@@ -39,15 +38,11 @@ const Calendar = () => {
 
 
     const formatted = data.map((s) => ({
-    id: s.id.toString(),
-    text: s.text,
-    start: s.start,
-    end: s.end,
-    backColor:
-        s.status === "REQUESTED" ? "#cccccc" :
-        s.status === "CONFIRMED" ? "#4caf50" :
-        s.status === "REJECTED" ? "#f44336" :
-        undefined
+        id: s.id.toString(),
+        text: s.text,
+        start: s.start,
+        end: s.end,
+        backColor: s.color || undefined,
     }));
 
     setSlots(formatted);
@@ -57,56 +52,34 @@ const Calendar = () => {
     fetchSlots();
     }, [calendar, startDate]);
 
-    const formatDate = (dateStr) => {
-    const d = new Date(dateStr);
-
-    if (isNaN(d)) {
-        console.error("INVALID DATE", dateStr);
-        return null;
-    }
-
-    return d.toISOString().slice(0, 19);
-};
-
   // --- Create new slot ---
     const handleCreate = async (formData) => {
-        console.log("HANDLE CREATE CALLED", formData);
-    setLoading(true);
-    setError(null);
+        setLoading(true);
+        setError(null);
 
     try {
-        const payload = {
-            text: formData.text,
-            start: formatDate(formData.start),
-            end: formatDate(formData.end),
-            userId: 1
-        };
-        console.log("PAYLOAD", payload);
+        const response = await fetch("/api/events/create", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData)
+        });
 
-        console.log("BEFORE FETCH");
+        if (!response.ok) {
+        const errorText = await response.text();
+        throw new Error(errorText);
+        }
 
-        const newEvent = await createSlot(payload);
+    const newSlot = await response.json();
 
-        console.log("AFTER FETCH", newEvent);
-
-        setSlots(prev => [
-            ...prev,
-            {
-                id: newEvent.id.toString(),
-                text: newEvent.text,
-                start: newEvent.start,
-                end: newEvent.end
-            }
-        ]);
-
-    if (!formData.start || !formData.end || !formData.text) {
-    console.log("FORM INVALID", formData);
-    return;
-}
-
+    setSlots(prev => [...prev, {
+        id: newSlot.id.toString(),
+        text: newSlot.text,
+        start: newSlot.start,
+        end: newSlot.end
+    }]);
+    setForm({ start: "", end: "", text: "" }); // reset form
     } catch (err) {
-        console.error("CREATE ERROR", err);
-        setError(err.message);
+    setError(err.message); // 🔥 no more alert
     } finally {
         setLoading(false);
     }
@@ -125,7 +98,7 @@ const Calendar = () => {
     end: e.end().toString()
     };
 
-    await fetch("/api/v1/events/update", {
+    await fetch("/api/events/update", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(payload)
@@ -137,7 +110,7 @@ const Calendar = () => {
 
   // --- Delete slot ---
     const deleteSlot = async (e) => {
-    await fetch(`/api/v1/events/${e.id()}`, {
+    await fetch(`/api/events/${e.id()}`, {
         method: "DELETE"
     });
 
@@ -163,7 +136,7 @@ const Calendar = () => {
             end: args.end.toString(),
         };
 
-        const response = await fetch("/api/v1/events", {
+        const response = await fetch("/api/events/create", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),
@@ -179,7 +152,7 @@ const Calendar = () => {
     },
     onEventClick: async (args) => editSlot(args.e),
     onEventMoved: async (args) => {
-        await fetch("/api/v1/events/move", {
+        await fetch("/api/events/move", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -228,13 +201,10 @@ const Calendar = () => {
                 <Dialog open={isModalOpen} onClose={() => setIsModalOpen(false)} disableEnforceFocus={false}
                     >
                     <CreateSlot 
-                        onCreate={async (data) => {
-                        console.log("ON CREATE CALLED", data);
-
-                        await handleCreate(data); // 👈 wait for it
-
-                        setIsModalOpen(false);
-}}
+                        onCreate={(data) => {
+                            handleCreate(data);
+                            setIsModalOpen(false);
+                        }}
                         loading={loading}
                         error={error}
                         initialDate={selectedDate} // optional, pre-fill date

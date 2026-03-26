@@ -32,9 +32,9 @@ export const LandingPage = () => {
 
   return (
     <>
+    <Button to="/Admin" label="ADMIN" className={style.adminButton}/>
     <main className={style.main}>
       <Logo/>
-      <Button to="/Admin" label="ADMIN" className={style.adminButton}/>
       {!isLoggedIn ? (
         <section className={style.auth}>
           <Button to="/SignUp" label="SIGN UP" />

@@ -16,7 +16,7 @@
     flex-direction: column;
     position: fixed;
     right: 10px;
-    align-items: flex-end
+    align-items: flex-end;
 }
 
 .section {
@@ -26,9 +26,7 @@
 }
 
 .adminButton {
-    display: flex;
-    flex-direction: column;
     position: fixed;
-    right: 10px;
-    align-items: flex-start
+    top: 10px;
+    left: 10px; 
 }

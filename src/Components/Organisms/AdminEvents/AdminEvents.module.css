@@ -1,9 +1,60 @@
+.page {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
 .event {
     display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 6px;
+    border: 1px solid #ddd;
+    background-color: rgba(255, 255, 255, 0.9);
+    transition: 0.3s all;
+    
+}
+
+.event.confirmed {
+    background-color: rgba(76, 175, 80, 0.4); /* slight green */
+}
+
+.event.rejected {
+    background-color: rgba(244, 67, 54, 0.4); /* slight red */
+}
+
+.event section {
+    flex: 1;
+}
+
+.deleteBtn {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    font-size: 18px;
+    transition: transform 0.2s ease;
+}
+
+.deleteBtn:hover {
+    transform: scale(1.2);
 }
 
 .decision {
     display: flex;
     flex-direction: column;
-    justify-content: space-evenly;
+    gap: 5px;
+    margin-left: 20px;
+    align-self: center;
+    align-items: flex-end;
+}
+
+.text {
+    font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    font-style: italic;
+}
+
+.author{
+    font-style: italic;
 }

@@ -59,7 +59,7 @@ const toggleShow = (review, newValue) => {
         <div key={r.id} className={style.review}>
           <section className={style.text}>
             <p className={style.p}>{r.review}</p>
-            <p className={style.autor}> - {r.user?.firstName || "Anonymous"} - </p>
+            <p className={style.author}> - {r.user?.firstName || "Anonymous"} - </p>
             <Line/>
           </section>
           <SliderButton

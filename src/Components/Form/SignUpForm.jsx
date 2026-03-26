@@ -106,17 +106,10 @@ const onSubmit = async (data) => {
                             error={!!errors.address}
                             helperText={errors.address && "Required"} />
                     </Grid>
-
-                <Grid container spacing={2}>
-                    <Grid>
-                        <ColorSelect  register={register} />
-                    </Grid>
-
-                    <Grid>
                         <TextField
                         select
                         fullWidth
-                        label="Children Count"
+                        label="Children"
                         defaultValue="1"
                         {...register("childrenCount", { required: true })}
                         >
@@ -125,8 +118,7 @@ const onSubmit = async (data) => {
                         <MenuItem value="3">3</MenuItem>
                         <MenuItem value="4">4</MenuItem>
                         </TextField>
-                    </Grid>
-                </Grid>
+
             </Grid>
 
             <Button
