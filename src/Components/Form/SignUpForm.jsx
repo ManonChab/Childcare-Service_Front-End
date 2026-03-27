@@ -16,8 +16,6 @@ import {
     Link,
     CssBaseline,
 } from "@mui/material";
-import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
-import ColorSelect from "../Atoms/ColorSelector/ColorSelector";
 import Logo from "../Atoms/Logo/Logo";
 
 export default function SignUpForm() {
