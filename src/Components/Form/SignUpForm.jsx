@@ -39,11 +39,6 @@ const onSubmit = async (data) => {
         <Container style={{ color: theme.palette.text.primary }} component="main" maxWidth="xs" sx={{ width: "100%", md: "50%"  }}>
         <Box sx={{ display: "flex", flexDirection: "column",  alignItems: "center" }}>
             <Logo/>
-            {/* 
-            <Typography component="h1" variant="h5" sx={{ fontWeight: 600, fontSize: "40px", color: "text.primary" }} >
-            Sign up
-            </Typography> */}
-
             <Box component="form" onSubmit={handleSubmit(onSubmit)} sx={{ mt: 3,  }}>
                 <Grid container spacing={2} sx={{ display: "flex", flexDirection: "column",  alignItems: "center"  }}>
                     <Grid>

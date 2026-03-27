@@ -20,17 +20,6 @@ const UserProvider = ({ children }) => {
         console.log("USER CHANGED:", user);
         }, [user]);
 
-        //WHEN IMPLEMENTING TOKEN
-        // const savedToken = localStorage.getItem("token");
-        // if (!savedToken || !savedUser) {
-        //     logout();
-        // } else {
-        //     setUser(JSON.parse(savedUser));
-        //     setIsLogged(true);
-        // }
-    // }, []);
-
-
     const login = async (credentials) => {
         try {
             console.log("Trying to login...");
@@ -38,10 +27,8 @@ const UserProvider = ({ children }) => {
             const response = await api.post("/api/v1/users/login", credentials);
 
             const authHeader = response.headers['authorization'];
-            // const token = authHeader ? authHeader.replace("Bearer ", "") : null;
+        
             const userData = response.data;
-
-            // if (!token) throw new Error("No token received from server");
 
             const loggedUser = {
                 id: userData.id,
@@ -49,7 +36,6 @@ const UserProvider = ({ children }) => {
                 location: userData.location,
             };
 
-            // localStorage.setItem("token", token);
             localStorage.setItem("userData", JSON.stringify(loggedUser));
 
             setUser(loggedUser);

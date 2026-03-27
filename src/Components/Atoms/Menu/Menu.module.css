@@ -2,7 +2,7 @@
     width: 100%;
     position: sticky;
     top: 0;
-    background: #f9e3e3; /* important so it doesn't overlap weirdly */
+    background: #f9e3e3; 
     z-index: 1000;
     
 }

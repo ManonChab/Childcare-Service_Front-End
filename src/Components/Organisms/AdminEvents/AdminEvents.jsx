@@ -19,7 +19,7 @@ import { FormControl, Select, MenuItem, InputLabel } from "@mui/material";
     });
 
     const fetchEvents = () => {
-        fetch("http://localhost:8080/api/v1/events") // fix endpoint
+        fetch("http://localhost:8080/api/v1/events") 
         .then(res => res.json())
         .then(data => setEvents(Array.isArray(data) ? data : [data]));
     };
@@ -33,7 +33,6 @@ import { FormControl, Select, MenuItem, InputLabel } from "@mui/material";
         method: "DELETE"
     })
     .then(() => {
-        // remove from UI
         setEvents(prev => prev.filter(e => e.id !== id));
     })
     .catch(err => console.error(err));

@@ -17,10 +17,6 @@ export const createSlot = (data) =>
         return r.json();
     });
 
-// export const createSlot = async (data) => {
-//     const response = await api.post("/api/v1/events", data);
-//     return response.data;
-// };
 
 export const updateSlot = (data) =>
     fetch("/api/v1/events/update", {

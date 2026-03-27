@@ -18,11 +18,11 @@
 }
 
 .event.confirmed {
-    background-color: rgba(76, 175, 80, 0.4); /* slight green */
+    background-color: rgba(76, 175, 80, 0.4);
 }
 
 .event.rejected {
-    background-color: rgba(244, 67, 54, 0.4); /* slight red */
+    background-color: rgba(244, 67, 54, 0.4); 
 }
 
 .event section {

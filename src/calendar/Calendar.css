@@ -1,6 +1,3 @@
-/* adjusting the built-in theme */
-
-/* calendar event */
 
 .calendar_default_main:not(.default) {
     --dp-calendar-event-background: #2e78d6cc;
@@ -11,7 +8,6 @@
 }
 
 .calendar_default_event img {
-    /* fill parent container */
     width: 100%;
     height: 100%;
     object-fit: cover;
@@ -27,14 +23,13 @@
     object-fit: cover;
 }
 
-/* Base desktop layout (unchanged) */
 .calendar-layout {
     display: flex;
 }
 
 .left-column {
     display: flex;
-    flex-direction: column; /* navigator on top, form below */
+    flex-direction: column; 
     align-items: center;
 }
 
@@ -42,16 +37,15 @@
     flex-grow: 1;
 }
 
-/* Mobile layout */
+
 @media (max-width: 768px) {
 
 .calendar-layout {
     flex-direction: column;
 }
 
-  /* Navigator + form side by side */
 .left-column {
-    flex-direction: row;       /* side by side */
+    flex-direction: row;    
     justify-content: space-between;
     align-items: flex-start;
     width: 100%;
@@ -60,15 +54,13 @@
 }
 
 .navigator-container, .event-form {
-    flex: 1;                  /* equal width */
-    max-width: 48%;           /* optional for spacing */
+    flex: 1;                 
+    max-width: 48%;         
     align-self: center;
     justify-items: center;
 
 }
 
-
-  /* Calendar full width under */
 .calendar-main {
     width: 100%;
     margin-top: 1rem;

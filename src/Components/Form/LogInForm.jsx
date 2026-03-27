@@ -68,7 +68,6 @@ export function LogInForm() {
 
                 <Box component="form" onSubmit={handleSubmit(onSubmit)} sx={{ mt: 3 }}>
                     
-                    {/* Email */}
                     <TextField
                         fullWidth
                         label="Email"
@@ -84,7 +83,6 @@ export function LogInForm() {
                         helperText={errors.email?.message}
                     />
 
-                    {/* Password */}
                     <TextField
                         fullWidth
                         type="password"

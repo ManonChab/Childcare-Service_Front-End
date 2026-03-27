@@ -36,9 +36,6 @@ export const themeOptions = {
                     '& .MuiOutlinedInput-root': {
                     backgroundColor: '#fff',
                     },
-                    // '& .MuiOutlinedInput-notchedOutline': {
-                    // borderColor: '#ccc',
-                    // }
         MuiInputLabel: {
             styleOverrides: {
                 root: {

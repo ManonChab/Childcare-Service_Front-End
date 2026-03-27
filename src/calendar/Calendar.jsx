@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import {DayPilot, DayPilotCalendar, DayPilotNavigator,} from "@daypilot/daypilot-lite-react";
 import "./Calendar.css";
 import { ThemeProvider, CssBaseline } from "@mui/material";
-import { theme } from "../Context/Theme/ThemeContext"; // adjust path
+import { theme } from "../Context/Theme/ThemeContext"; 
 import { CreateSlot } from "../Components/Atoms/CreateSlot/CreateSlot";
 import { Button, Dialog, DialogTitle, DialogContent } from "@mui/material";
 import Logo from "../Components/Atoms/Logo/Logo";
@@ -17,7 +17,6 @@ const Calendar = () => {
     const [selectedDate, setSelectedDate] = useState(null);
     const [form, setForm] = useState({ start: "", end: "", text: "" });
 
-  // --- Fetch slots from backend ---
     const fetchSlots = async () => {
     if (!calendar) return;
 
@@ -52,7 +51,7 @@ const Calendar = () => {
     fetchSlots();
     }, [calendar, startDate]);
 
-  // --- Create new slot ---
+
     const handleCreate = async (formData) => {
         setLoading(true);
         setError(null);
@@ -77,16 +76,14 @@ const Calendar = () => {
         start: newSlot.start,
         end: newSlot.end
     }]);
-    setForm({ start: "", end: "", text: "" }); // reset form
+    setForm({ start: "", end: "", text: "" });
     } catch (err) {
-    setError(err.message); // 🔥 no more alert
+    setError(err.message); 
     } finally {
         setLoading(false);
     }
 };
 
-
-  // --- Update slot ---
     const editSlot = async (e) => {
     const modal = await DayPilot.Modal.prompt("Update slot text:", e.text());
     if (!modal.result) return;
@@ -108,7 +105,6 @@ const Calendar = () => {
     calendar.events.update(e);
 };
 
-  // --- Delete slot ---
     const deleteSlot = async (e) => {
     await fetch(`/api/events/${e.id()}`, {
         method: "DELETE"
@@ -117,7 +113,6 @@ const Calendar = () => {
     calendar.events.remove(e);
 };
 
-  // --- Calendar configuration ---
     const config = {
     viewType: "Week",
     durationBarVisible: false,
@@ -192,7 +187,7 @@ const Calendar = () => {
                 color="primary"
                 sx={{ m: 2 }}
                 onClick={() => {
-                    setSelectedDate(null); // no specific date yet
+                    setSelectedDate(null); 
                     setIsModalOpen(true);
                 }}
                 >
@@ -207,7 +202,7 @@ const Calendar = () => {
                         }}
                         loading={loading}
                         error={error}
-                        initialDate={selectedDate} // optional, pre-fill date
+                        initialDate={selectedDate} 
                     />
                 </Dialog>
 
@@ -218,9 +213,8 @@ const Calendar = () => {
                     startDate={startDate}
                     controlRef={setCalendar}
                     onTimeRangeSelected={(args) => {
-                    setSelectedDate(args.start); // pass clicked date
-                    setIsModalOpen(true);        // open modal
-                    // optionally, prevent default behavior
+                    setSelectedDate(args.start); 
+                    setIsModalOpen(true);       
                     args.preventDefault();}}
                     />
                 </div>
